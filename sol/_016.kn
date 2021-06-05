@@ -1,0 +1,17 @@
+func main()
+	var n: int :: cui@inputInt()
+	var a: int :: cui@inputInt()
+	var b: int :: cui@inputInt()
+	var c: int :: cui@inputInt()
+	const max: int :: 9999
+	var ans: int :: max
+	for i(0, max)
+		for j(0, max - i)
+			var remains: int :: n - a * i - b * j
+			if(remains >= 0 & remains % c = 0)
+				do ans :: lib@min(ans, i + j + remains / c)
+			end if
+		end for
+	end for
+	do cui@print("\{ans}\n")
+end func
