@@ -1,0 +1,24 @@
+func main()
+	var n: int :: cui@inputInt()
+	
+	var cum1: []int :: #[n + 1]int
+	var cum2: []int :: #[n + 1]int
+	for i(0, n - 1)
+		var c: int :: cui@inputInt()
+		var p: int :: cui@inputInt()
+		do cum1[i + 1] :: cum1[i]
+		do cum2[i + 1] :: cum2[i]
+		if(c = 1)
+			do cum1[i + 1] :+ p
+		else
+			do cum2[i + 1] :+ p
+		end if
+	end for
+	
+	var q: int :: cui@inputInt()
+	for(1, q)
+		var l: int :: cui@inputInt() - 1
+		var r: int :: cui@inputInt()
+		do cui@print("\{cum1[r] - cum1[l]} \{cum2[r] - cum2[l]}\n")
+	end for
+end func

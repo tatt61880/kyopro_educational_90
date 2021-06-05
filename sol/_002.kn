@@ -1,0 +1,33 @@
+func main()
+	var n: int :: cui@inputInt()
+	if(n % 2 <> 0)
+		do cui@print("\n")
+		ret
+	end if
+	
+	for i(0, 2 ^ n - 1)
+		var id: int :: i
+		var cntOpen: int :: 0
+		var cntClose: int :: 0
+		var a: []bool :: #[n]bool
+		for j(0, n - 1)
+			do a[j] :: id % 2 = 1
+			if(a[j])
+				do cntOpen :+ 1
+				if(cntOpen > n / 2)
+					skip i
+				end if
+			else
+				do cntClose :+ 1
+				if(cntClose > cntOpen)
+					skip i
+				end if
+			end if
+			do id :/ 2
+		end for
+		for j(n - 1, 0, -1)
+			do cui@print(a[j] ?(")", "("))
+		end for
+		do cui@print("\n")
+	end for
+end func

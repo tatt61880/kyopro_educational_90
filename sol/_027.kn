@@ -1,0 +1,12 @@
+func main()
+	var n: int :: cui@inputInt()
+	var prev: int :: 0
+	var map: dict<[]char, bool> :: #dict<[]char, bool>
+	for i(1, n)
+		do map.add(cui@input(), true)
+		if(^map <> prev)
+			do prev :+ 1
+			do cui@print("\{i}\n")
+		end if
+	end for
+end func

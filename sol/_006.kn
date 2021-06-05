@@ -1,0 +1,26 @@
+func main()
+	var n: int :: cui@inputInt()
+	var k: int :: cui@inputInt()
+	var s: []char :: cui@input()
+	var nextPos: [][]int :: #[n, 26]int
+	var pos: []int :: [n].repeat(26)
+	for i(n - 1, 0, -1)
+		do pos[s[i] $ int - 'a' $ int] :: i
+		for j(0, 25)
+			do nextPos[i][j] :: pos[j]
+		end for
+	end for
+	var p: int :: 0
+	var ans: []char :: #[k]char
+	for i(0, k - 1)
+		for j(0, 25)
+			var remains: int :: n - 1 - nextPos[p][j]
+			if(remains >= k - 1 - i)
+				do ans[i] :: 'a'.offset(j)
+				do p :: nextPos[p][j] + 1
+				break j
+			end if
+		end for
+	end for
+	do cui@print("\{ans}\n")
+end func

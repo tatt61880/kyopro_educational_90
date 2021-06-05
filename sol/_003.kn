@@ -1,0 +1,40 @@
+func main()
+	var n: int :: cui@inputInt()
+	var graph: []list<int> :: #[n]list<int>
+	for i(0, n - 1)
+		do graph[i] :: #list<int>
+	end for
+	for i(0, n - 2)
+		var a: int :: cui@inputInt() - 1
+		var b: int :: cui@inputInt() - 1
+		do graph[a].add(b)
+		do graph[b].add(a)
+	end for
+	
+	var ans: int :: treeDiameter(graph) + 1
+	do cui@print("\{ans}\n")
+	
+	func treeDiameter(graph: []list<int>): int
+		var pos: int :: 0
+		do treeDiameterSub(graph, &pos, -1)
+		ret treeDiameterSub(graph, &pos, -1)
+		
+		func treeDiameterSub(graph: []list<int>, pos: &int, p: int): int
+			var u: int :: pos
+			var res: int :: 0
+			do graph[u].head()
+			while(!graph[u].term())
+				var x: int :: graph[u].get()
+				if(x <> p)
+					var dist: int :: treeDiameterSub(graph, &x, u) + 1
+					if(dist > res)
+						do res :: dist
+						do pos :: x
+					end if
+				end if
+				do graph[u].next()
+			end while
+			ret res
+		end func
+	end func
+end func

@@ -1,0 +1,19 @@
+func main()
+	var n: int :: cui@inputInt()
+	var s: []char :: cui@input()
+	var atcoder: []char :: "atcoder"
+	
+	var dp: []int :: #[^atcoder + 1]int
+	do dp[0] :: 1
+	for i(0, n - 1)
+		for j(0, ^atcoder - 1)
+			if(s[i] = atcoder[j])
+				do dp[j + 1] :+ dp[j]
+				do dp[j + 1] :% 10 ^ 9 + 7
+			end if
+		end for
+	end for
+	
+	var ans: int :: dp[^atcoder]
+	do cui@print("\{ans}\n")
+end func
