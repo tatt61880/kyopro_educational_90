@@ -1,0 +1,15 @@
+func main()
+	var t: float :: cui@inputFloat()
+	var l: float :: cui@inputFloat()
+	var x: float :: cui@inputFloat()
+	var y: float :: cui@inputFloat()
+	
+	var q: int :: cui@inputInt()
+	for(1, q)
+		var e: float :: cui@inputFloat()
+		var posY: float :: -l / 2.0 * lib@sin(2.0 * lib@pi * e / t)
+		var posZ: float :: l / 2.0 * (1.0 - lib@cos(2.0 * lib@pi * e / t))
+		var ans: float :: lib@atan(posZ / (x ^ 2.0 + (posY - y) ^ 2.0) ^ 0.5) * 360.0 / (2.0 * lib@pi)
+		do cui@print("\{ans}\n")
+	end for
+end func
