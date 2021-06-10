@@ -1,25 +1,12 @@
 func main()
-	var ans: int :: 1
-	var map: dict<int, int> :: #dict<int, int>
-	for(1, 2)
-		var x: int :: cui@inputInt()
-		var mapTemp: dict<int, int> :: #dict<int, int>
-		var factors: []int :: math@primeFactors(x)
-		if(factors <>& null)
-			for i(0, ^factors - 1)
-				var v: int :: factors[i]
-				var cnt: int :: mapTemp.get(v, &) + 1
-				do mapTemp.add(v, cnt)
-				if(map.get(v, &) < cnt)
-					do map.add(v, cnt)
-					if(ans > 10 ^ 18 / v)
-						do cui@print("Large\n")
-						ret
-					end if
-					do ans :* v
-				end if
-			end for
-		end if
-	end for
+	var a: int :: cui@inputInt()
+	var b: int :: cui@inputInt()
+	var v: int :: b / math@gcd(a, b)
+	var ans: int :: a
+	if(ans > 10 ^ 18 / v)
+		do cui@print("Large\n")
+		ret
+	end if
+	do ans :* v
 	do cui@print("\{ans}\n")
 end func
