@@ -1,0 +1,20 @@
+func main()
+	var q: int :: cui@inputInt()
+	var a: []int :: #[2 * 10 ^ 5]int
+	var l: int :: 10 ^ 5
+	var r: int :: l
+	for(1, q)
+		var t: int :: cui@inputInt()
+		var x: int :: cui@inputInt()
+		switch(t)
+		case 1
+			do l :- 1
+			do a[l] :: x
+		case 2
+			do a[r] :: x
+			do r :+ 1
+		case 3
+			do cui@print("\{a[l + x - 1]}\n")
+		end switch
+	end for
+end func
