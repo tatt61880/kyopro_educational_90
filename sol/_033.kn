@@ -1,0 +1,11 @@
+func main()
+	var h: int :: cui@inputInt()
+	var w: int :: cui@inputInt()
+	var ans: int
+	if(h = 1 | w = 1)
+		do ans :: h * w
+	else
+		do ans :: ((h + 1) / 2) * ((w + 1) / 2)
+	end if
+	do cui@print("\{ans}\n")
+end func
