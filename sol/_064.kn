@@ -14,18 +14,18 @@ func main()
 	end for
 	
 	for(1, q)
-		var l: int :: cui@inputInt()
-		var r: int :: cui@inputInt()
+		var l: int :: cui@inputInt() - 1
+		var r: int :: cui@inputInt() - 1
 		var v: int :: cui@inputInt()
-		if(l <> 1)
-			do ans :- diff[l - 2].abs()
-			do diff[l - 2] :+ v
-			do ans :+ diff[l - 2].abs()
+		if(l <> 0)
+			do ans :- diff[l - 1].abs()
+			do diff[l - 1] :+ v
+			do ans :+ diff[l - 1].abs()
 		end if
-		if(r <> n)
-			do ans :- diff[r - 1].abs()
-			do diff[r - 1] :- v
-			do ans :+ diff[r - 1].abs()
+		if(r <> n - 1)
+			do ans :- diff[r].abs()
+			do diff[r] :- v
+			do ans :+ diff[r].abs()
 		end if
 		do cui@print("\{ans}\n")
 	end for
