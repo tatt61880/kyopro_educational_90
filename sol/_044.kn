@@ -1,0 +1,32 @@
+var offset: int
+var n: int
+
+func main()
+	do @n :: cui@inputInt()
+	var q: int :: cui@inputInt()
+	var a: []int :: #[@n]int
+	for i(0, @n - 1)
+		do a[i] :: cui@inputInt()
+	end for
+	
+	for(1, q)
+		var t: int :: cui@inputInt()
+		var x: int :: cui@inputInt() - 1
+		var y: int :: cui@inputInt() - 1
+		switch(t)
+		case 1
+			var tmp: int :: a[idx(x)]
+			do a[idx(x)] :: a[idx(y)]
+			do a[idx(y)] :: tmp
+		case 2
+			do @offset :+ 1
+		case 3
+			var ans: int :: a[idx(x)]
+			do cui@print("\{ans}\n")
+		end switch
+	end for
+	
+	func idx(i: int): int
+		ret(@n * @offset + i - @offset) % @n
+	end func
+end func
