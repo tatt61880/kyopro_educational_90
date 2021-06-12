@@ -1,0 +1,25 @@
+func main()
+	var n: int :: cui@inputInt()
+	var a: [][]int :: #[3, n]int
+	for i(0, 2)
+		for j(0, n - 1)
+			do a[i][j] :: cui@inputInt()
+		end for
+	end for
+	
+	const mod: int :: 46
+	var dp: [][]int :: #[4, mod]int
+	do dp[0][0] :: 1
+	
+	for i(0, 2)
+		for j(0, n - 1)
+			var v: int :: a[i][j]
+			for k(0, mod - 1)
+				do dp[i + 1][(k + v)%mod] :+ dp[i][k]
+			end for
+		end for
+	end for
+	
+	var ans: int :: dp[3][0]
+	do cui@print("\{ans}\n")
+end func
