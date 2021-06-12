@@ -1,0 +1,49 @@
+var arrT: list<int>
+var arrF: list<int>
+
+func main()
+	var n: int :: cui@inputInt()
+	var graph: []list<int> :: #[n]list<int>
+	for i(0, n - 1)
+		do graph[i] :: #list<int>
+	end for
+	for i(0, n - 2)
+		var a: int :: cui@inputInt() - 1
+		var b: int :: cui@inputInt() - 1
+		do graph[a].add(b)
+		do graph[b].add(a)
+	end for
+	
+	do @arrT :: #list<int>
+	do @arrF :: #list<int>
+	do dfs(graph, 0, 0, true)
+	
+	var majority: list<int>
+	if(^@arrT >= n / 2)
+		do majority :: @arrT
+	else
+		do majority :: @arrF
+	end if
+	do majority.head()
+	for i(1, n / 2)
+		var ans: int :: majority.get() + 1
+		do cui@print("\{ans}" ~ (i = n / 2 ?("\n", " ")))
+		do majority.next()
+	end for
+	
+	func dfs(graph: []list<int>, u: int, parent: int, f: bool)
+		if(f)
+			do @arrT.add(u)
+		else
+			do @arrF.add(u)
+		end if
+		do graph[u].head()
+		while(!graph[u].term())
+			var x: int :: graph[u].get()
+			if(x <> parent)
+				do dfs(graph, x, u, !f)
+			end if
+			do graph[u].next()
+		end while
+	end func
+end func
