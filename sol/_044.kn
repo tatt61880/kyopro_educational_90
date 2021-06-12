@@ -19,7 +19,7 @@ func main()
 			do a[idx(x)] :: a[idx(y)]
 			do a[idx(y)] :: tmp
 		case 2
-			do @offset :+ 1
+			do @offset :+ @n - 1
 		case 3
 			var ans: int :: a[idx(x)]
 			do cui@print("\{ans}\n")
@@ -27,6 +27,6 @@ func main()
 	end for
 	
 	func idx(i: int): int
-		ret(@n * @offset + i - @offset) % @n
+		ret(i + @offset) % @n
 	end func
 end func
