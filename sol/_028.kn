@@ -1,0 +1,37 @@
+func main()
+	var n: int :: cui@inputInt()
+	const max: int :: 1000
+	var cum2d: [][]int :: #[max + 1, max + 1]int
+	for(1, n)
+		var lx: int :: cui@inputInt()
+		var ly: int :: cui@inputInt()
+		var rx: int :: cui@inputInt()
+		var ry: int :: cui@inputInt()
+		do cum2d[ry][rx] :+ 1
+		do cum2d[ry][lx] :- 1
+		do cum2d[ly][rx] :- 1
+		do cum2d[ly][lx] :+ 1
+	end for
+	
+	for y(0, max - 1)
+		for x(1, max - 1)
+			do cum2d[y][x] :+ cum2d[y][x - 1]
+		end for
+	end for
+	for x(0, max - 1)
+		for y(1, max - 1)
+			do cum2d[y][x] :+ cum2d[y - 1][x]
+		end for
+	end for
+	
+	var ans: []int :: #[n + 1]int
+	for y(0, max - 1)
+		for x(0, max - 1)
+			do ans[cum2d[y][x]] :+ 1
+		end for
+	end for
+	
+	for k(1, n)
+		do cui@print("\{ans[k]}\n")
+	end for
+end func
