@@ -1,0 +1,18 @@
+func main()
+	var k: int :: cui@inputInt()
+	if(k % 9 <> 0)
+		do cui@print("0\n")
+		ret
+	end if
+	var dp: []int :: #[k + 9]int
+	do dp[0] :: 1
+	for i(0, k - 1)
+		for j(1, 9)
+			do dp[i + j] :+ dp[i]
+			do dp[i + j] :% 10 ^ 9 + 7
+		end for
+	end for
+	
+	var ans: int :: dp[k]
+	do cui@print("\{ans}\n")
+end func
