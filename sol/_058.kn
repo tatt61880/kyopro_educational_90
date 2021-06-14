@@ -1,0 +1,32 @@
+func main()
+	var n: int :: cui@inputInt()
+	var k: int :: cui@inputInt()
+	
+	var map: dict<int, int> :: #dict<int, int>
+	for i(1, k)
+		do n :: f(n)
+		var prev: int :: map.get(n, &)
+		if(prev <> 0)
+			var len: int :: i - prev
+			do k :- prev
+			do k :% len
+			for j(1, k)
+				do n :: f(n)
+			end for
+			break i
+		end if
+		do map.add(n, i)
+	end for
+	
+	var ans: int :: n
+	do cui@print("\{ans}\n")
+	
+	func f(n: int): int
+		var res: int :: n
+		while(n <> 0)
+			do res :+ n % 10
+			do n :/ 10
+		end while
+		ret res % 10 ^ 5
+	end func
+end func
