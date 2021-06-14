@@ -30,19 +30,10 @@ func main()
 					do cnt :+ 1
 				end if
 			end for
-			do map.add(prev, map.get(prev, &) + cnt)
+			var val: int :: map.get(prev, &) + cnt
+			do map.add(prev, val)
+			do ans :: [ans, val].max()
 		end for
-		
-		var max: lib@Int :: #lib@Int
-		do map.forEach(callback, max)
-		do ans :: [ans, max.value].max()
 	end for
 	do cui@print("\{ans}\n")
-	
-	func callback(key: int, value: int, data: kuin@Class): bool
-		if((data $ lib@Int).value < value)
-			do(data $ lib@Int).value :: value
-		end if
-		ret true
-	end func
 end func
