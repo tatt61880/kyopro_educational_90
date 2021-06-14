@@ -1,0 +1,48 @@
+func main()
+	var h: int :: cui@inputInt()
+	var w: int :: cui@inputInt()
+	var p: [][]int :: #[h, w]int
+	for y(0, h - 1)
+		for x(0, w - 1)
+			do p[y][x] :: cui@inputInt()
+		end for
+	end for
+	
+	var ans: int :: 0
+	for id(0, 2 ^ h - 1)
+		var i: int :: id
+		var f: []bool :: #[h]bool
+		for j(0, h - 1)
+			do f[j] :: i % 2 = 1
+			do i :/ 2
+		end for
+		
+		var map: dict<int, int> :: #dict<int, int>
+		for x(0, w - 1)
+			var prev: int :: -1
+			var cnt: int :: 0
+			for y(0, h - 1)
+				if(f[y])
+					if(prev <> -1 & prev <> p[y][x])
+						skip x
+					end if
+					do prev :: p[y][x]
+					do cnt :+ 1
+				end if
+			end for
+			do map.add(prev, map.get(prev, &) + cnt)
+		end for
+		
+		var max: lib@Int :: #lib@Int
+		do map.forEach(callback, max)
+		do ans :: [ans, max.value].max()
+	end for
+	do cui@print("\{ans}\n")
+	
+	func callback(key: int, value: int, data: kuin@Class): bool
+		if((data $ lib@Int).value < value)
+			do(data $ lib@Int).value :: value
+		end if
+		ret true
+	end func
+end func
