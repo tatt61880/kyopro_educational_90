@@ -1,0 +1,25 @@
+func main()
+	var n: int :: cui@inputInt()
+	var k: int :: cui@inputInt()
+	
+	const mod: int :: 1000000007
+	var ans: int :: 0
+	
+	switch(n)
+	case 1
+		do ans :: k
+	case 2
+		if(k < 2)
+			do ans :: 0
+		else
+			do ans :: k * (k - 1) % mod
+		end if
+	default
+		if(k < 3)
+			do ans :: 0
+		else
+			do ans :: k * (k - 1) % mod * (math@modPow(k - 2, n - 2, mod) % mod) % mod
+		end if
+	end switch
+	do cui@print("\{ans}\n")
+end func
