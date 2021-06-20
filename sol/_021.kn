@@ -15,13 +15,13 @@ func main()
 	end for
 	
 	var used1: []bool :: #[n]bool
-	var orders: []int :: #[n]int
-	var idx: int :: 0
+	var ordersList: list<int> :: #list<int>
 	for i(0, n - 1)
 		if(!used1[i])
-			do dfs1(ab, used1, i, orders, &idx)
+			do dfs1(ab, used1, i, ordersList)
 		end if
 	end for
+	var orders: []int :: ordersList.toArray()
 	do orders.reverse()
 	
 	var used2: []bool :: #[n]bool
@@ -34,18 +34,17 @@ func main()
 	end for
 	do cui@print("\{ans}\n")
 	
-	func dfs1(ab: []list<int>, used: []bool, u: int, orders: []int, idx: &int)
+	func dfs1(ab: []list<int>, used: []bool, u: int, ordersList: list<int>)
 		do used[u] :: true
 		do ab[u].head()
 		for i(0, ^ab[u] - 1)
 			var v: int :: ab[u].get()
 			if(!used[v])
-				do dfs1(ab, used, v, orders, &idx)
+				do dfs1(ab, used, v, ordersList)
 			end if
 			do ab[u].next()
 		end for
-		do orders[idx] :: u
-		do idx :+ 1
+		do ordersList.add(u)
 	end func
 	
 	func dfs2(ba: []list<int>, used: []bool, u: int): int
