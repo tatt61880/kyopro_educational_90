@@ -1,0 +1,64 @@
+func main()
+	var n: int :: cui@inputInt()
+	var m: int :: cui@inputInt()
+	var ab: []list<int> :: #[n]list<int>
+	var ba: []list<int> :: #[n]list<int>
+	for i(0, n - 1)
+		do ab[i] :: #list<int>
+		do ba[i] :: #list<int>
+	end for
+	for(1, m)
+		var a: int :: cui@inputInt() - 1
+		var b: int :: cui@inputInt() - 1
+		do ab[a].add(b)
+		do ba[b].add(a)
+	end for
+	
+	var used1: []bool :: #[n]bool
+	var orders: []int :: #[n]int
+	var idx: int :: 0
+	for i(0, n - 1)
+		if(!used1[i])
+			do dfs1(ab, used1, i, orders, &idx)
+		end if
+	end for
+	do orders.reverse()
+	
+	var used2: []bool :: #[n]bool
+	var ans: int :: 0
+	for i(0, n - 1)
+		if(!used2[orders[i]])
+			var res: int :: dfs2(ba, used2, orders[i])
+			do ans :+ res * (res - 1) / 2
+		end if
+	end for
+	do cui@print("\{ans}\n")
+	
+	func dfs1(ab: []list<int>, used: []bool, u: int, orders: []int, idx: &int)
+		do used[u] :: true
+		do ab[u].head()
+		for i(0, ^ab[u] - 1)
+			var v: int :: ab[u].get()
+			if(!used[v])
+				do dfs1(ab, used, v, orders, &idx)
+			end if
+			do ab[u].next()
+		end for
+		do orders[idx] :: u
+		do idx :+ 1
+	end func
+	
+	func dfs2(ba: []list<int>, used: []bool, u: int): int
+		var res: int :: 1
+		do used[u] :: true
+		do ba[u].head()
+		for i(0, ^ba[u] - 1)
+			var v: int :: ba[u].get()
+			if(!used[v])
+				do res :+ dfs2(ba, used, v)
+			end if
+			do ba[u].next()
+		end for
+		ret res
+	end func
+end func
