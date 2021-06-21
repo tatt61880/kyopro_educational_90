@@ -1,0 +1,98 @@
+func main()
+	var w: int :: cui@inputInt()
+	var n: int :: cui@inputInt()
+	var segmentTree: @SegmentTree :: (#@SegmentTree).init(w)
+	do segmentTree.updateRange(0, w, 0)
+	for(1, n)
+		var l: int :: cui@inputInt() - 1
+		var r: int :: cui@inputInt()
+		var ans: int :: -segmentTree.query(l, r) + 1
+		do cui@print("\{ans}\n")
+		do segmentTree.updateRange(l, r, -ans)
+	end for
+end func
+
+class SegmentTree()
+	const inf_: int :: lib@intMax
+	var size: int
+	var node: []int
+	var lasy: []int
+	+func init(n: int): SegmentTree
+		do me.size :: 1
+		while(me.size < n)
+			do me.size :* 2
+		end while
+		do me.node :: [inf_].repeat(2 * me.size)
+		do me.lasy :: ##me.node
+		ret me
+	end func
+	func eval(k: int)
+		if(me.lasy[k] = inf_)
+			ret
+		end if
+		if(k < me.size - 1)
+			do me.lasy[k * 2 + 1] :: me.lasy[k]
+			do me.lasy[k * 2 + 2] :: me.lasy[k]
+		end if
+		do me.node[k] :: me.lasy[k]
+		do me.lasy[k] :: inf_
+	end func
+	+func update(idx: int, val: int)
+		do me.updateRange(idx, idx + 1, val)
+	end func
+	+func updateRange(a: int, b: int, val: int)
+		do me.updateRangeSub(a, b, val, 0, 0, me.size)
+	end func
+	+func updateRangeSub(a: int, b: int, val: int, k: int, l: int, r: int)
+		do me.eval(k)
+		if(a <= l & r <= b)
+			do me.lasy[k] :: val
+			do me.eval(k)
+		elif(a < r & l < b)
+			do me.updateRangeSub(a, b, val, k * 2 + 1, l, (l + r) / 2)
+			do me.updateRangeSub(a, b, val, k * 2 + 2, (l + r) / 2, r)
+			do me.node[k] :: lib@min(me.node[k * 2 + 1], me.node[k * 2 + 2])
+		end if
+	end func
+	+func query(a: int, b: int): int
+		ret me.querySub(a, b, 0, 0, me.size)
+	end func
+	func querySub(a: int, b: int, k: int, l: int, r: int): int
+		do me.eval(k)
+		if(b <= l | r <= a)
+			ret inf_
+		end if
+		if(a <= l & r <= b)
+			ret me.node[k]
+		end if
+		var vl: int :: me.querySub(a, b, 2 * k + 1, l, (l + r) / 2)
+		var vr: int :: me.querySub(a, b, 2 * k + 2, (l + r) / 2, r)
+		ret lib@min(vl, vr)
+	end func
+	+*func toStr(): []char
+		var padding: int :: 1
+		while(padding <= me.size)
+			do padding :* 2
+		end while
+		do padding :- 1
+		var res: []char :: ""
+		var s: int :: 0
+		var e: int :: 0
+		var n: int :: 1
+		const digit: int :: 6
+		var fmt: []char :: " \{digit}d"
+		var strInf: []char :: " ".repeat(digit - 3) ~ "inf"
+		while(padding > 0)
+			do padding :/ 2
+			for i(s, e)
+				do res :~ " ".repeat((digit + 1) * padding)
+				do res :~ "\{me.node[i] = inf_ ?(strInf, me.node[i].toStrFmt(fmt))}|"
+			end for
+			do res :~ "\n"
+			do n :* 2
+			do s :: e + 1
+			do e :: s + n - 1
+		end while
+		ret res
+	end func
+end class
