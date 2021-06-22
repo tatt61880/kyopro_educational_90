@@ -1,0 +1,41 @@
+func main()
+	var n: int :: cui@inputInt()
+	var graph: []list<int> :: #[n]list<int>
+	for i(0, n - 1)
+		do graph[i] :: #list<int>
+	end for
+	for i(0, n - 2)
+		var a: int :: cui@inputInt() - 1
+		var b: int :: cui@inputInt() - 1
+		do graph[a].add(b)
+		do graph[b].add(a)
+	end for
+	
+	var a: []int :: #[n]int
+	do dfs(graph, 0, -1, a)
+	var ans: int :: 0
+	for u(0, n - 1)
+		do graph[u].head()
+		while(!graph[u].term())
+			var v: int :: graph[u].get()
+			var min: int :: [a[u], a[v]].min()
+			do ans :+ min * (n - min)
+			do graph[u].next()
+		end while
+	end for
+	do ans :/ 2
+	do cui@print("\{ans}\n")
+	
+	func dfs(graph: []list<int>, u: int, p: int, a: []int)
+		do a[u] :: 1
+		do graph[u].head()
+		while(!graph[u].term())
+			var v: int :: graph[u].get()
+			if(v <> p)
+				do dfs(graph, v, u, a)
+				do a[u] :+ a[v]
+			end if
+			do graph[u].next()
+		end while
+	end func
+end func
