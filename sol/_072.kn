@@ -1,0 +1,54 @@
+func main()
+	var h: int :: cui@inputInt()
+	var w: int :: cui@inputInt()
+	var c: [][]char :: #[h][]char
+	for i(0, h - 1)
+		do c[i] :: cui@input()
+	end for
+	
+	var ans: int :: 0
+	if(h = 1 | w = 1)
+	else
+		for y(0, h - 1)
+			for x(0, w - 1)
+				for d(0, 3)
+					if(c[y][x] = '.')
+						do ans :: [ans, f(0, y, x, y, x, h, w, c, d)].max()
+					end if
+				end for
+			end for
+		end for
+	end if
+	if(ans = 0)
+		do ans :: -1
+	end if
+	do cui@print("\{ans}\n")
+	
+	func f(cnt: int, sy: int, sx: int, y: int, x: int, h: int, w: int, c: [][]char, d: int): int
+		var res: int :: 0
+		var dx: []int :: [1, 0, -1, 0]
+		var dy: []int :: [0, 1, 0, -1]
+		for dd(-1, 1)
+			var nd: int :: (d + dd + 4) % 4
+			var nx: int :: x + dx[nd]
+			var ny: int :: y + dy[nd]
+			if(nx = -1 | nx = w)
+				skip dd
+			end if
+			if(ny = -1 | ny = h)
+				skip dd
+			end if
+			if(ny = sy & nx = sx)
+				do res :: [res, cnt + 1].max()
+				skip dd
+			end if
+			if(c[ny][nx] = '#')
+				skip dd
+			end if
+			do c[ny][nx] :: '#'
+			do res :: [res, f(cnt + 1, sy, sx, ny, nx, h, w, c, nd)].max()
+			do c[ny][nx] :: '.'
+		end for
+		ret res
+	end func
+end func
