@@ -1,0 +1,41 @@
+func main()
+	var n: int :: cui@inputInt()
+	var s: int :: cui@inputInt()
+	var ab: [][]int :: #[n + 1, 2]int
+	for i(1, n)
+		for iab(0, 1)
+			do ab[i][iab] :: cui@inputInt()
+		end for
+	end for
+	
+	; dp[i][j] = i日目まででｊ円分購入
+	var dp: [][]bool :: #[n + 1, s + 1]bool
+	do dp[0][0] :: true
+	for i(1, n)
+		for j(s, 0, -1)
+			for iab(0, 1)
+				var prev: int :: j - ab[i][iab]
+				if(prev >= 0 & dp[i - 1][prev])
+					do dp[i][j] :: true
+				end if
+			end for
+		end for
+	end for
+	if(!dp[n][s])
+		do cui@print("Impossible\n")
+		ret
+	end if
+	var ans: []char :: #[n]char
+	var val: int :: s
+	for i(n, 1, -1)
+		for iab(0, 1)
+			var next: int :: val - ab[i][iab]
+			if(next >= 0 & dp[i - 1][next])
+				do val :: next
+				do ans[i - 1] :: iab = 0 ?('A', 'B')
+				break iab
+			end if
+		end for
+	end for
+	do cui@print("\{ans}\n")
+end func
