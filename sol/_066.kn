@@ -1,0 +1,30 @@
+func main()
+	var n: int :: cui@inputInt()
+	var l: []int :: #[n]int
+	var r: []int :: #[n]int
+	for i(0, n - 1)
+		do l[i] :: cui@inputInt()
+		do r[i] :: cui@inputInt()
+	end for
+	
+	var ans: float :: 0.00
+	for i(0, n - 2)
+		for j(i + 1, n - 1)
+			do ans :+ f(l[i], r[i], l[j], r[j])
+		end for
+	end for
+	do cui@print("\{ans}\n")
+	
+	func f(l1: int, r1: int, l2: int, r2: int): float
+		var total: int :: (r1 - l1 + 1) * (r2 - l2 + 1)
+		var num: int :: 0
+		for v1(l1, r1)
+			for v2(l2, r2)
+				if(v1 > v2)
+					do num :+ 1
+				end if
+			end for
+		end for
+		ret num $ float / total $ float
+	end func
+end func
