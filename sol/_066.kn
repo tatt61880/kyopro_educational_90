@@ -16,15 +16,20 @@ func main()
 	do cui@print("\{ans}\n")
 	
 	func f(l1: int, r1: int, l2: int, r2: int): float
+		if(r2 < l1)
+			ret 1.0
+		end if
+		if(r1 < l2)
+			ret 0.0
+		end if
+		
 		var total: int :: (r1 - l1 + 1) * (r2 - l2 + 1)
 		var num: int :: 0
-		for v1(l1, r1)
-			for v2(l2, r2)
-				if(v1 > v2)
-					do num :+ 1
-				end if
-			end for
-		end for
+		do num :+ (r1 - l1 + 1) * [l1 - l2, 0].max()
+		do num :+ [r1 - r2, 0].max() * (r2 - l2 + 1)
+		do num :- [r1 - r2, 0].max() * [l1 - l2, 0].max()
+		var n: int :: [r1, r2].min() - [l1, l2].max() + 1
+		do num :+ (n * n - n) / 2
 		ret num $ float / total $ float
 	end func
 end func
