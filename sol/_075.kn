@@ -1,0 +1,11 @@
+func main()
+	var n: int :: cui@inputInt()
+	var primeFactors: []int :: math@primeFactors(n)
+	var num: int :: ^primeFactors
+	var ans: int :: 0
+	while(num <> 1)
+		do num :: (num + 1) / 2
+		do ans :+ 1
+	end while
+	do cui@print("\{ans}\n")
+end func
