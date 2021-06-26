@@ -1,0 +1,33 @@
+func main()
+	var n: int :: cui@inputInt()
+	var a: []int :: #[2 * n]int
+	var sum: int :: 0
+	for i(0, n - 1)
+		var x: int :: cui@inputInt()
+		do a[i] :: x
+		do a[n + i] :: x
+		do sum :+ x
+	end for
+	
+	var ans: bool :: false
+	if(sum % 10 = 0)
+		do sum :/ 10
+		var l: int :: 0
+		var r: int :: 0
+		var sum2: int :: 0
+		while loop(l <> 2 * n)
+			if(sum2 < sum & r <> 2 * n)
+				do sum2 :+ a[r]
+				if(sum2 = sum)
+					do ans :: true
+					break loop
+				end if
+				do r :+ 1
+			else
+				do sum2 :- a[l]
+				do l :+ 1
+			end if
+		end while
+	end if
+	do cui@print((ans ?("Yes", "No")) ~ "\n")
+end func
