@@ -22,6 +22,7 @@ func main()
 	end for
 	
 	func dists(graph: []list<Edge>, start: int): []int
+		var n: int :: ^graph
 		var res: []int :: [lib@intMax].repeat(^graph)
 		do res[start] :: 0
 		var pq: PriorityQueue :: #PriorityQueue
@@ -29,8 +30,8 @@ func main()
 		while loop(pq.len <> 0)
 			var data: int :: -pq.top()
 			do pq.pop()
-			var u: int :: data % 10 ^ 6
-			if(res[u] < data / 10 ^ 6)
+			var u: int :: data % n
+			if(res[u] < data / n)
 				skip loop
 			end if
 			
@@ -41,7 +42,7 @@ func main()
 				var dist: int :: e.dist
 				if(res[u] + dist < res[v])
 					do res[v] :: res[u] + dist
-					do pq.add(-(res[v] * 10 ^ 6 + v))
+					do pq.add(-(res[v] * n + v))
 				end if
 				do graph[u].next()
 			end for
