@@ -10,41 +10,42 @@ func main()
 	end for
 	
 	var pow10: []int :: #[64]int
-	do pow10[0] :: 1
 	do pow10[1] :: 10 % b
 	for ib(2, 63)
 		do pow10[ib] :: (pow10[ib - 1] ^ 2) % b
 	end for
 	
-	var dp: [][]int :: #[64, b]int
+	var dp: []int :: #[b]int
 	for ik(0, k - 1)
-		do dp[0][c[ik] % b] :+ 1
-	end for
-	for ib(1, 63)
-		for i(0, b - 1)
-			for j(0, b - 1)
-				do dp[ib][(i * pow10[ib] + j) % b] :+ dp[ib - 1][i] * dp[ib - 1][j]
-				do dp[ib][(i * pow10[ib] + j) % b] :% mod
-			end for
-		end for
+		do dp[c[ik] % b] :+ 1
 	end for
 	
-	var ans: [][]int :: #[64, b]int
-	do ans[0][0] :: 1
-	for ib(1, 63)
+	var ans: []int :: #[b]int
+	do ans[0] :: 1
+	var ib: int :: 0
+	while(n > 0)
 		if(n % 2 = 1)
+			var ansNext: []int :: #[b]int
 			for i(0, b - 1)
 				for j(0, b - 1)
-					do ans[ib][(i * pow10[ib] + j) % b] :+ ans[ib - 1][i] * dp[ib - 1][j]
-					do ans[ib][(i * pow10[ib] + j) % b] :% mod
+					do ansNext[(i * pow10[ib + 1] + j) % b] :+ ans[i] * dp[j]
+					do ansNext[(i * pow10[ib + 1] + j) % b] :% mod
 				end for
 			end for
-		else
-			for i(0, b - 1)
-				do ans[ib][i] :: ans[ib - 1][i]
-			end for
+			do ans :: ansNext
 		end if
+		block
+			var dpNext: []int :: #[b]int
+			for i(0, b - 1)
+				for j(0, b - 1)
+					do dpNext[(i * pow10[ib + 1] + j) % b] :+ dp[i] * dp[j]
+					do dpNext[(i * pow10[ib + 1] + j) % b] :% mod
+				end for
+			end for
+			do dp :: dpNext
+		end block
 		do n :/ 2
-	end for
-	do cui@print("\{ans[63][0]}\n")
+		do ib :+ 1
+	end while
+	do cui@print("\{ans[0]}\n")
 end func
