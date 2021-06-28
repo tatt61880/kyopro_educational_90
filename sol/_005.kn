@@ -4,14 +4,10 @@ func main()
 	var b: int :: cui@inputInt()
 	var k: int :: cui@inputInt()
 	
-	var c: []int :: #[k]int
-	for i(0, k - 1)
-		do c[i] :: cui@inputInt()
-	end for
-	
 	var dp: []int :: #[b]int
-	for ik(0, k - 1)
-		do dp[c[ik] % b] :+ 1
+	for i(0, k - 1)
+		var c: int :: cui@inputInt()
+		do dp[c % b] :+ 1
 	end for
 	
 	var ans: []int :: #[b]int
