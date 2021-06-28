@@ -1,0 +1,50 @@
+func main()
+	const mod: int :: 1000000007
+	var n: int :: cui@inputInt()
+	var b: int :: cui@inputInt()
+	var k: int :: cui@inputInt()
+	
+	var c: []int :: #[k]int
+	for i(0, k - 1)
+		do c[i] :: cui@inputInt()
+	end for
+	
+	var pow10: []int :: #[64]int
+	do pow10[0] :: 1
+	do pow10[1] :: 10 % b
+	for ib(2, 63)
+		do pow10[ib] :: (pow10[ib - 1] ^ 2) % b
+	end for
+	
+	var dp: [][]int :: #[64, b]int
+	for ik(0, k - 1)
+		do dp[0][c[ik] % b] :+ 1
+	end for
+	for ib(1, 63)
+		for i(0, b - 1)
+			for j(0, b - 1)
+				do dp[ib][(i * pow10[ib] + j) % b] :+ dp[ib - 1][i] * dp[ib - 1][j]
+				do dp[ib][(i * pow10[ib] + j) % b] :% mod
+			end for
+		end for
+	end for
+	
+	var ans: [][]int :: #[64, b]int
+	do ans[0][0] :: 1
+	for ib(1, 63)
+		if(n % 2 = 1)
+			for i(0, b - 1)
+				for j(0, b - 1)
+					do ans[ib][(i * pow10[ib] + j) % b] :+ ans[ib - 1][i] * dp[ib - 1][j]
+					do ans[ib][(i * pow10[ib] + j) % b] :% mod
+				end for
+			end for
+		else
+			for i(0, b - 1)
+				do ans[ib][i] :: ans[ib - 1][i]
+			end for
+		end if
+		do n :/ 2
+	end for
+	do cui@print("\{ans[63][0]}\n")
+end func
