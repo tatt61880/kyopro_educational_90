@@ -9,27 +9,21 @@ func main()
 		do c[i] :: cui@inputInt()
 	end for
 	
-	var pow10: []int :: #[64]int
-	do pow10[1] :: 10 % b
-	for ib(2, 63)
-		do pow10[ib] :: (pow10[ib - 1] ^ 2) % b
-	end for
-	
 	var dp: []int :: #[b]int
 	for ik(0, k - 1)
 		do dp[c[ik] % b] :+ 1
 	end for
 	
 	var ans: []int :: #[b]int
+	var pow10: int :: 10 % b
 	do ans[0] :: 1
-	var ib: int :: 0
 	while(n > 0)
 		if(n % 2 = 1)
 			var ansNext: []int :: #[b]int
 			for i(0, b - 1)
 				for j(0, b - 1)
-					do ansNext[(i * pow10[ib + 1] + j) % b] :+ ans[i] * dp[j]
-					do ansNext[(i * pow10[ib + 1] + j) % b] :% mod
+					do ansNext[(i * pow10 + j) % b] :+ ans[i] * dp[j]
+					do ansNext[(i * pow10 + j) % b] :% mod
 				end for
 			end for
 			do ans :: ansNext
@@ -38,14 +32,14 @@ func main()
 			var dpNext: []int :: #[b]int
 			for i(0, b - 1)
 				for j(0, b - 1)
-					do dpNext[(i * pow10[ib + 1] + j) % b] :+ dp[i] * dp[j]
-					do dpNext[(i * pow10[ib + 1] + j) % b] :% mod
+					do dpNext[(i * pow10 + j) % b] :+ dp[i] * dp[j]
+					do dpNext[(i * pow10 + j) % b] :% mod
 				end for
 			end for
 			do dp :: dpNext
 		end block
+		do pow10 :: (pow10 ^ 2) % b
 		do n :/ 2
-		do ib :+ 1
 	end while
 	do cui@print("\{ans[0]}\n")
 end func
