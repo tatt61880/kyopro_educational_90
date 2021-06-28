@@ -1,0 +1,56 @@
+func main()
+	var n: int :: cui@inputInt()
+	var x: []float :: #[n]float
+	var y: []float :: #[n]float
+	for i(0, n - 1)
+		do x[i] :: cui@inputFloat()
+		do y[i] :: cui@inputFloat()
+	end for
+	
+	var ans: float :: 0.0
+	for i(0, n - 1)
+		var rots: []float :: #[n]float
+		for j(0, n - 1)
+			if(i = j)
+				if(i = 0)
+					do rots[j] :: lib@invRot(x[j + 1], y[j + 1], x[i], y[i])
+				else
+					do rots[j] :: lib@invRot(x[j - 1], y[j - 1], x[i], y[i])
+				end if
+			else
+				do rots[j] :: lib@invRot(x[j], y[j], x[i], y[i])
+			end if
+		end for
+		do rots.sort()
+		var rots2: []float :: #[2 * n]float
+		for j(0, n - 1)
+			do rots2[j] :: rots[j]
+		end for
+		for j(n, 2 * n - 1)
+			do rots2[j] :: rots[j - n] + 2.0 * lib@pi
+		end for
+		for j(0, n - 1)
+			var target: float :: rots[j] + lib@pi
+			var ok: int :: j
+			var ng: int :: j + n
+			while((ok - ng).abs() > 1)
+				var mid: int :: (ok + ng) / 2
+				if(rots2[mid] <= target)
+					do ok :: mid
+				else
+					do ng :: mid
+				end if
+			end while
+			do ans :: [ans, f(rots2[ok] - rots[j])].max()
+			do ans :: [ans, f(rots2[ok + 1] - rots[j])].max()
+		end for
+	end for
+	do cui@print("\{ans * 180.0 / lib@pi}\n")
+	
+	func f(t: float): float
+		if(t > lib@pi)
+			do t :: 2.0 * lib@pi - t
+		end if
+		ret t
+	end func
+end func
