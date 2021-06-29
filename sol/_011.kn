@@ -1,28 +1,33 @@
 func main()
 	var n: int :: cui@inputInt()
 	var works: []Work :: #[n]Work
+	var dMax: int :: 0
 	for i(0, n - 1)
 		var d: int :: cui@inputInt()
 		var c: int :: cui@inputInt()
 		var s: int :: cui@inputInt()
 		do works[i] :: (#Work).init(d, c, s)
+		do dMax :: [dMax, d].max()
 	end for
 	do works.sort()
 	
 	; dp[仕事番号][合計仕事時間] = 合計金額
-	var dp: [][]int :: #[n + 1, 5001]int
+	var dp: [][]int :: #[n + 1, dMax + 1]int
 	; 初期化する代わりに、最初の所持金を1円として「最終的な金額 - 1」を答えとする。
 	do dp[0][0] :: 1
 	for i(0, n - 1)
-		for j(0, 5000)
-			if(j + works[i].c <= works[i].d)
-				do dp[i + 1][j + works[i].c] :: [dp[i + 1][j + works[i].c], dp[i][j] + works[i].s].max()
+		for j(0, dMax)
+			var d: int :: works[i].d
+			var c: int :: works[i].c
+			var s: int :: works[i].s
+			if(j + c <= d)
+				do dp[i + 1][j + c] :: [dp[i + 1][j + c], dp[i][j] + s].max()
 			end if
 			do dp[i + 1][j] :: [dp[i + 1][j], dp[i][j]].max()
 		end for
 	end for
 	var ans: int :: 0
-	for j(0, 5000)
+	for j(0, dMax)
 		do ans :: [ans, dp[n][j]].max()
 	end for
 	do ans :- 1
