@@ -1,0 +1,50 @@
+func main()
+	var n: int :: cui@inputInt()
+	var works: []Work :: #[n]Work
+	for i(0, n - 1)
+		var d: int :: cui@inputInt()
+		var c: int :: cui@inputInt()
+		var s: int :: cui@inputInt()
+		do works[i] :: (#Work).init(d, c, s)
+	end for
+	do works.sort()
+	
+	; dp[仕事番号][合計仕事時間] = 合計金額
+	var dp: [][]int :: #[n + 1, 5001]int
+	; 初期化する代わりに、最初の所持金を1円として「最終的な金額 - 1」を答えとする。
+	do dp[0][0] :: 1
+	for i(0, n - 1)
+		for j(0, 5000)
+			if(j + works[i].c <= works[i].d)
+				do dp[i + 1][j + works[i].c] :: [dp[i + 1][j + works[i].c], dp[i][j] + works[i].s].max()
+			end if
+			do dp[i + 1][j] :: [dp[i + 1][j], dp[i][j]].max()
+		end for
+	end for
+	var ans: int :: 0
+	for j(0, 5000)
+		do ans :: [ans, dp[n][j]].max()
+	end for
+	do ans :- 1
+	do cui@print("\{ans}\n")
+	
+	class Work()
+		+var d: int
+		+var c: int
+		+var s: int
+		+func init(d: int, c: int, s: int): Work
+			do me.d :: d
+			do me.c :: c
+			do me.s :: s
+			ret me
+		end func
+		+*func cmp(t: kuin@Class): int
+			if(me.d < (t $ Work).d)
+				ret - 1
+			elif(me.d > (t $ Work).d)
+				ret 1
+			end if
+			ret 0
+		end func
+	end class
+end func
