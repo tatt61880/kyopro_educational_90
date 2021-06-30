@@ -1,0 +1,76 @@
+func main()
+	var n: int :: cui@inputInt()
+	var m: int :: cui@inputInt()
+	var lr: []Lr :: #[m]Lr
+	for i(0, m - 1)
+		var l: int :: cui@inputInt() - 1
+		var r: int :: cui@inputInt() - 1
+		do lr[i] :: (#Lr).init(l, r)
+	end for
+	do lr.sort()
+	
+	var bitL: @Bit :: (#@Bit).init(n)
+	var bitR: @Bit :: (#@Bit).init(n)
+	var ans: int :: 0
+	for i(0, m - 1)
+		var l: int :: lr[i].l
+		var r: int :: lr[i].r
+		if(l <> 0)
+			do ans :+ bitL.sum(l - 1)
+			do ans :- bitR.sum(l)
+		end if
+		do bitL.add(l, 1)
+		do bitR.add(r, 1)
+	end for
+	
+	do cui@print("\{ans}\n")
+	
+	class Lr()
+		+var l: int
+		+var r: int
+		+func init(l: int, r: int): Lr
+			do me.l :: l
+			do me.r :: r
+			ret me
+		end func
+		+*func cmp(t: kuin@Class): int
+			if(me.r < (t $ Lr).r)
+				ret - 1
+			elif(me.r > (t $ Lr).r)
+				ret 1
+			elif(me.l > (t $ Lr).l)
+				; 今回の方法の場合、
+				; rが等しいときは、lが大きい順にしないと、
+				; 数え上げ時に重複しやすい。
+				ret - 1
+			end if
+			ret 0
+		end func
+	end class
+end func
+
+class Bit()
+	var n: int
+	var data: []int
+	+func init(n: int): Bit
+		do me.n :: n
+		do me.data :: #[n + 1]int
+		ret me
+	end func
+	+func add(i: int, v: int)
+		var x: int :: i + 1
+		while(x <= me.n)
+			do me.data[x] :+ v
+			do x :+ (x $ bit64).and(((-x) $ bit64)) $ int
+		end while
+	end func
+	+func sum(i: int): int
+		var x: int :: i + 1
+		var res: int :: 0
+		while(x > 0)
+			do res :+ me.data[x]
+			do x :- (x $ bit64).and(((-x) $ bit64)) $ int
+		end while
+		ret res
+	end func
+end class
