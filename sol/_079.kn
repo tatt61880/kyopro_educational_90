@@ -1,0 +1,36 @@
+func main()
+	var h: int :: cui@inputInt()
+	var w: int :: cui@inputInt()
+	var a: [][]int :: #[h, w]int
+	for y(0, h - 1)
+		for x(0, w - 1)
+			do a[y][x] :: cui@inputInt()
+		end for
+	end for
+	for y(0, h - 1)
+		for x(0, w - 1)
+			do a[y][x] :- cui@inputInt()
+		end for
+	end for
+	
+	var ans: int :: 0
+	for y(0, h - 1)
+		for x(0, w - 1)
+			if(x = w - 1 | y = h - 1)
+				if(a[y][x] <> 0)
+					do cui@print("No\n")
+					ret
+				end if
+			else
+				var v: int :: a[y][x]
+				do ans :+ v.abs()
+				do a[y][x + 1] :- v
+				do a[y + 1][x] :- v
+				do a[y + 1][x + 1] :- v
+			end if
+		end for
+	end for
+	
+	do cui@print("Yes\n")
+	do cui@print("\{ans}\n")
+end func
