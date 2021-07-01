@@ -1,0 +1,43 @@
+func main()
+	var n: int :: cui@inputInt()
+	
+	const mod: int :: 1000000007
+	var comb: @Comb :: (#@Comb).init(n, mod)
+	var ans: []int :: #[n + 1]int
+	for k(1, n)
+		var numMax: int :: (n - 1) / k + 1
+		for num(1, numMax)
+			var remains: int :: n - 1 - k * (num - 1)
+			do ans[k] :+ comb.comb(num + remains, remains)
+			do ans[k] :% mod
+		end for
+	end for
+	for k(1, n)
+		do cui@print("\{ans[k]}\n")
+	end for
+end func
+
+class Comb()
+	var mod: int
+	var fact: []int
+	var inv: []int
+	
+	+func init(n: int, mod: int): Comb
+		do me.mod :: mod
+		do me.fact :: #[n + 1]int
+		do me.inv :: #[n + 1]int
+		do me.fact[0] :: 1
+		for i(1, n)
+			do me.fact[i] :: me.fact[i - 1] * i % mod
+		end for
+		do me.inv[n] :: math@modPow(me.fact[n], mod - 2, mod)
+		for i(n, 1, -1)
+			do me.inv[i - 1] :: me.inv[i] * i % mod
+		end for
+		ret me
+	end func
+	
+	+func comb(n: int, r: int): int
+		ret me.fact[n] * me.inv[n - r] % me.mod * me.inv[r] % me.mod
+	end func
+end class
