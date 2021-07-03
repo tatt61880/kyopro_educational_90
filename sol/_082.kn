@@ -1,0 +1,96 @@
+func main()
+	const mod: int :: 1000000007
+	var l: int :: cui@inputInt()
+	var r: int :: cui@inputInt()
+	
+	var ans: int :: (mod + f(r) - f(l - 1)) % mod
+	do cui@print("\{ans}\n")
+	
+	func f(n: int): int
+		if(n = 0)
+			ret 0
+		end if
+		var a: []int :: #[20]int
+		for i(0, 18)
+			do a[i] :: 10 ^ i
+		end for
+		do a[19] :: 10 ^ 18 + 1
+		
+		var res: int :: 0
+		for i(0, 18)
+			var d: int :: i + 1
+			if(n < a[i + 1])
+				do res :+ g(a[i], n) * d % mod
+				do res :% mod
+				break i
+			end if
+			do res :+ g(a[i], a[i + 1] - 1) * d % mod
+			do res :% mod
+		end for
+		ret res
+		
+		func g(l: int, r: int): int
+			ret(mod + h(r) - h(l - 1)) % mod
+		end func
+		
+		func h(n: int): int
+			var res: int :: n % mod
+			do res :* (n + 1) % mod
+			do res :% mod
+			do res :* math@modPow(2, mod - 2, mod)
+			do res :% mod
+			ret res
+		end func
+	end func
+end func
+
+; val, mod, a, b: 0 to 2 ^ 31.
+class ModInt()
+	+var val: int
+	var mod: int
+	+*func toStr(): []char
+		ret "\{me.val}"
+	end func
+	+func init(val: int, mod: int): ModInt
+		do me.val :: val % mod
+		do me.mod :: mod
+		ret me
+	end func
+	+func add(a: int): ModInt
+		do me.val :+ a
+		if(me.val >= me.mod)
+			do me.val :- me.mod
+		end if
+		ret me
+	end func
+	+func sub(a: int): ModInt
+		if(me.val < a)
+			do me.val :+ me.mod
+		end if
+		do me.val :- a
+		ret me
+	end func
+	+func mul(a: int): ModInt
+		do me.val :: me.val * a % me.mod
+		ret me
+	end func
+	+func div(a: int): ModInt
+		do me.val :: me.val * me.modPow(a, me.mod - 2) % me.mod
+		ret me
+	end func
+	+func pow(a: int): ModInt
+		do me.val :: me.modPow(me.val, a)
+		ret me
+	end func
+	func modPow(a: int, b: int): int
+		if(b = 0)
+			ret 1
+		end if
+		var res: int :: me.modPow(a, b / 2)
+		do res :: res * res % me.mod
+		if(b % 2 = 1)
+			do res :: res * a % me.mod
+		end if
+		ret res
+	end func
+end class
