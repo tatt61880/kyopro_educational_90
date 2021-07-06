@@ -9,7 +9,7 @@ func main()
 		var e: float :: cui@inputFloat()
 		var posY: float :: -l / 2.0 * lib@sin(2.0 * lib@pi * e / t)
 		var posZ: float :: l / 2.0 * (1.0 - lib@cos(2.0 * lib@pi * e / t))
-		var ans: float :: lib@atan(posZ / (x ^ 2.0 + (posY - y) ^ 2.0) ^ 0.5) * 360.0 / (2.0 * lib@pi)
+		var ans: float :: lib@toDegree(lib@atan(posZ / (x ^ 2.0 + (posY - y) ^ 2.0) ^ 0.5))
 		do cui@print("\{ans}\n")
 	end for
 end func
