@@ -45,7 +45,7 @@ func main()
 			do ans :: [ans, f(rots2[ok + 1] - rots[j])].max()
 		end for
 	end for
-	do cui@print("\{ans * 180.0 / lib@pi}\n")
+	do cui@print("\{lib@toDegree(ans)}\n")
 	
 	func f(t: float): float
 		if(t > lib@pi)
