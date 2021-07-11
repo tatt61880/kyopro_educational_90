@@ -1,0 +1,37 @@
+func main()
+	const max: int :: 5000
+	var n: int :: cui@inputInt()
+	var k: int :: cui@inputInt()
+	var xy: []int :: #[(max + 1) * max + max + 1]int
+	for i(0, n - 1)
+		var a: int :: cui@inputInt()
+		var b: int :: cui@inputInt()
+		do xy[a * max + b] :+ 1
+	end for
+	
+	for y(1, max)
+		for x(1, max)
+			do xy[y * max + x] :+ xy[y * max + x - 1]
+		end for
+	end for
+	for x(1, max)
+		for y(1, max)
+			do xy[y * max + x] :+ xy[(y - 1) * max + x]
+		end for
+	end for
+	
+	var ans: int :: 0
+	for y(0, max - 1)
+		for x(0, max - 1)
+			var mx: int :: lib@min(x + k + 1, max)
+			var my: int :: lib@min(y + k + 1, max)
+			var val: int :: 0
+			do val :+ xy[my * max + mx]
+			do val :- xy[y * max + mx]
+			do val :- xy[my * max + x]
+			do val :+ xy[y * max + x]
+			do ans :: lib@max(ans, val)
+		end for
+	end for
+	do cui@print("\{ans}\n")
+end func
