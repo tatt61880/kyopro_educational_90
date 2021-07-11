@@ -1,0 +1,38 @@
+func main()
+	var h: int :: cui@inputInt()
+	var w: int :: cui@inputInt()
+	do cui@delimiter("")
+	var s: []char :: cui@inputStr()
+	var idx: int :: 0
+	var a: [][]int :: #[h, w]int
+	var row: []int :: #[h]int
+	var col: []int :: #[w]int
+	for y(0, h - 1)
+		for x(0, w - 1)
+			var v: int :: 0
+			while('0' <= s[idx])
+				do v :* 10
+				do v :+ s[idx] $ int - '0' $ int
+				do idx :+ 1
+			end while
+			do idx :+ 1
+			do a[y][x] :: v
+			do row[y] :+ v
+			do col[x] :+ v
+		end for
+	end for
+	var ans: []char :: #[h * w * 7]char
+	var len: int :: 0
+	for y(0, h - 1)
+		for x(0, w - 1)
+			var str: []char :: (row[y] + col[x] - a[y][x]).toStr()
+			for i(0, ^str - 1)
+				do ans[len + i] :: str[i]
+			end for
+			do len :+ ^str
+			do ans[len] :: x = w - 1 ?('\n', ' ')
+			do len :+ 1
+		end for
+	end for
+	do cui@print(ans)
+end func
