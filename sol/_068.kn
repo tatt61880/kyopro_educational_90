@@ -1,0 +1,94 @@
+func main()
+	var n: int :: cui@inputInt()
+	var q: int :: cui@inputInt()
+	var f: []bool :: #[n]bool
+	var bitFlag: @Bit :: (#@Bit).init(n)
+	var bitEven: @Bit :: (#@Bit).init(n)
+	var bitOdd: @Bit :: (#@Bit).init(n)
+	for(1, q)
+		var t: int :: cui@inputInt()
+		var x: int :: cui@inputInt() - 1
+		var y: int :: cui@inputInt() - 1
+		var v: int :: cui@inputInt()
+		if(t = 0)
+			if(!f[x])
+				do f[x] :: true
+				do bitFlag.add(x, 1)
+				if(x % 2 = 0)
+					do bitEven.add(x, v)
+				else
+					do bitOdd.add(x, v)
+				end if
+			end if
+		else
+			if(x = y)
+				do cui@print("\{v}\n")
+			elif(x < y)
+				if(bitFlag.query(x, y) = y - x)
+					var ans: int :: 0
+					if(y % 2 = 1)
+						do ans :+ bitEven.query(x, y) - bitOdd.query(x, y)
+					else
+						do ans :- bitEven.query(x, y) - bitOdd.query(x, y)
+					end if
+					if((y - x) % 2 = 0)
+						do ans :+ v
+					else
+						do ans :- v
+					end if
+					do cui@print("\{ans}\n")
+				else
+					do cui@print("Ambiguous\n")
+				end if
+			else
+				if(bitFlag.query(y, x) = x - y)
+					var ans: int :: 0
+					if(y % 2 = 1)
+						do ans :+ bitEven.query(x, y) - bitOdd.query(x, y)
+					else
+						do ans :- bitEven.query(x, y) - bitOdd.query(x, y)
+					end if
+					if((y - x) % 2 = 0)
+						do ans :+ v
+					else
+						do ans :- v
+					end if
+					do cui@print("\{ans}\n")
+				else
+					do cui@print("Ambiguous\n")
+				end if
+			end if
+		end if
+	end for
+end func
+
+class Bit()
+	var n: int
+	var data: []int
+	+func init(n: int): Bit
+		do me.n :: n
+		do me.data :: #[n + 1]int
+		ret me
+	end func
+	+func add(i: int, v: int)
+		var x: int :: i + 1
+		while(x <= me.n)
+			do me.data[x] :+ v
+			do x :+ (x $ bit64).and(((-x) $ bit64)) $ int
+		end while
+	end func
+	+func sum(i: int): int
+		var x: int :: i + 1
+		var res: int :: 0
+		while(x > 0)
+			do res :+ me.data[x]
+			do x :- (x $ bit64).and(((-x) $ bit64)) $ int
+		end while
+		ret res
+	end func
+	
+	; [l, r)
+	+func query(l: int, r: int): int
+		ret me.sum(r - 1) - me.sum(l - 1)
+	end func
+end class
