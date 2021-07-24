@@ -14,11 +14,11 @@ func main()
 	end for
 	var x1: int :: f(g, p, k)
 	var x2: int :: f(g, p, k + 1)
-	var ans: int :: x1 - x2
 	if(x1 = p + 1 & x1 <> x2)
 		do cui@print("Infinity\n")
 		ret
 	end if
+	var ans: int :: x1 - x2
 	do cui@print("\{ans}\n")
 	
 	; pスヌーク以下で到達可能であるような組がkk個以上となる最大のxの値を返す。
