@@ -1,0 +1,43 @@
+func main()
+	var n: int :: cui@inputInt()
+	var q: int :: cui@inputInt()
+	var x: []int :: #[q]int
+	var y: []int :: #[q]int
+	var z: []int :: #[q]int
+	var w: []int :: #[q]int
+	for qi(0, q - 1)
+		do x[qi] :: cui@inputInt() - 1
+		do y[qi] :: cui@inputInt() - 1
+		do z[qi] :: cui@inputInt() - 1
+		do w[qi] :: cui@inputInt()
+	end for
+	
+	const mod: int :: 1000000007
+	var ans: int :: 1
+	for i(0, 59)
+		var cnt: int :: 0
+		var wi: []int :: #[q]int
+		for qi(0, q - 1)
+			do wi[qi] :: (w[qi] $ bit64).and((2 ^ i) $ bit64) <> 0b64 ?(1, 0)
+		end for
+		for ii(0, 2 ^ n - 1)
+			var id: int :: ii
+			var a: []int :: #[n]int
+			var j: int :: 0
+			while(id <> 0)
+				do a[j] :: id % 2
+				do j :+ 1
+				do id :/ 2
+			end while
+			for qi(0, q - 1)
+				if((a[x[qi]] + a[y[qi]] + a[z[qi]] <> 0 ?(1, 0)) <> wi[qi])
+					skip ii
+				end if
+			end for
+			do cnt :+ 1
+		end for
+		do ans :* cnt
+		do ans :% mod
+	end for
+	do cui@print("\{ans}\n")
+end func
