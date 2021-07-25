@@ -1,0 +1,48 @@
+var dp: [][]int
+var c: []char
+
+func main()
+	const mod: int :: 1000000007
+	var n: int :: cui@inputInt()
+	do @c :: #[n]char
+	for i(0, n - 1)
+		do @c[i] :: cui@inputChar()
+	end for
+	var g: []list<int> :: #[n]list<int>
+	for i(0, n - 1)
+		do g[i] :: #list<int>
+	end for
+	for(1, n - 1)
+		var a: int :: cui@inputInt() - 1
+		var b: int :: cui@inputInt() - 1
+		do g[a].add(b)
+		do g[b].add(a)
+	end for
+	
+	do @dp :: #[n, 3]int
+	do dfs(g, 0, -1)
+	var ans: int :: @dp[0][2]
+	do cui@print("\{ans}\n")
+	
+	func dfs(g: []list<int>, u: int, p: int)
+		var x: int :: @c[u] $ int - 'a' $ int
+		do @dp[u][x] :: 1
+		do @dp[u][2] :: 1
+		do g[u].head()
+		for(1, ^g[u])
+			var v: int :: g[u].get()
+			if(v <> p)
+				do dfs(g, v, u)
+				var v2: int :: @dp[v][x] + @dp[v][2]
+				var v3: int :: @dp[v][0] + @dp[v][1] + 2 * @dp[v][2]
+				do @dp[u][x] :* v2
+				do @dp[u][x] :% mod
+				do @dp[u][2] :* v3
+				do @dp[u][2] :% mod
+			end if
+			do g[u].next()
+		end for
+		do @dp[u][2] :+ mod - @dp[u][x]
+		do @dp[u][2] :% mod
+	end func
+end func
