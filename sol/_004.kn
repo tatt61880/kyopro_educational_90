@@ -21,18 +21,13 @@ func main()
 			do col[x] :+ v
 		end for
 	end for
-	var ans: []char :: #[h * w * 7]char
-	var len: int :: 0
 	for y(0, h - 1)
 		for x(0, w - 1)
-			var str: []char :: (row[y] + col[x] - a[y][x]).toStr()
-			for i(0, ^str - 1)
-				do ans[len + i] :: str[i]
-			end for
-			do len :+ ^str
-			do ans[len] :: x = w - 1 ?('\n', ' ')
-			do len :+ 1
+			do a[y][x] :: row[y] + col[x] - a[y][x]
 		end for
 	end for
-	do cui@print(ans)
+	for y(0, h - 1)
+		do cui@print(a[y].join(" "))
+		do cui@print("\n")
+	end for
 end func
